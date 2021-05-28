@@ -2,13 +2,18 @@ import {
   employeesSelector,
   fetchEmployees,
 } from "features/employees/employeesSlice";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { Employee } from "./components/Employee";
+import { sorter } from "helpers/sorter";
+import englishAlphabet from "helpers/enlgish";
+import { AlphabeticView } from "./components/AlphaBeticView";
 
 export const Employees = () => {
   const employees = useAppSelector(employeesSelector);
   const dispatch = useAppDispatch();
+
+  const sortedEmployees = useMemo(() => sorter(employees), [employees]);
+  console.log(sortedEmployees);
 
   useEffect(() => {
     dispatch(fetchEmployees());
@@ -16,9 +21,10 @@ export const Employees = () => {
 
   return (
     <div>
-      {employees.map(employee => {
-        return <Employee employee={employee} key={employee.id} />;
-      })}
+      <AlphabeticView
+        alphabet={englishAlphabet}
+        groupedData={sortedEmployees}
+      />
     </div>
   );
 };
