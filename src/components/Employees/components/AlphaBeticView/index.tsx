@@ -8,6 +8,7 @@ type IProps = {
 export const AlphabeticView = ({ alphabet, groupedData }: IProps) => {
   return (
     <div>
+      <h3>Employees</h3>
       {alphabet.map(letter => {
         const list = groupedData[letter];
         return (
