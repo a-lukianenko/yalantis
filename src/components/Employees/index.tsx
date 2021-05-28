@@ -4,6 +4,7 @@ import {
 } from "features/employees/employeesSlice";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { Employee } from "./components/Employee";
 
 export const Employees = () => {
   const employees = useAppSelector(employeesSelector);
@@ -14,15 +15,10 @@ export const Employees = () => {
   }, [dispatch]);
 
   return (
-    <ul>
+    <div>
       {employees.map(employee => {
-        return (
-          <li key={employee.id}>
-            {employee.id}. {employee.firstName} {employee.lastName} -{" "}
-            {employee.dob}
-          </li>
-        );
+        return <Employee employee={employee} key={employee.id} />;
       })}
-    </ul>
+    </div>
   );
 };
