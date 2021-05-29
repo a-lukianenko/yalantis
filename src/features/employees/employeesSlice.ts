@@ -1,24 +1,26 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { TEmployee } from 'types/Types';
-import { filter, set } from 'lodash/fp';
 import { RootState } from 'app/store';
 
 type TEmployeeSlice = {
   employees: TEmployee[];
-  selectedEmployees: TEmployee[];
 };
 
 const initialState: TEmployeeSlice = {
-  employees: [],
-  selectedEmployees: [],
+  employees:
+    (JSON.parse(localStorage.getItem('employees')!) as TEmployee[]) || [],
 };
 
 export const fetchEmployees = createAsyncThunk(
   'employees/fetchByIdStatus',
   async () => {
-    const response = await axios.get(process.env.REACT_APP_API as string);
-    return response.data as TEmployee[];
+    if (localStorage.getItem('employees')) {
+      return JSON.parse(localStorage.getItem('employees')!);
+    } else {
+      const response = await axios.get(process.env.REACT_APP_API as string);
+      return response.data as TEmployee[];
+    }
   }
 );
 
@@ -27,19 +29,29 @@ const employeesSlice = createSlice({
   initialState,
   reducers: {
     selectEmployee: (state, action: PayloadAction<TEmployee>) => {
-      state.selectedEmployees.push(action.payload);
+      state.employees.find(
+        (employee) => employee.id === action.payload.id
+      )!.status = 'active';
     },
     deselectEmployee: (state, action: PayloadAction<TEmployee>) => {
-      state.selectedEmployees = state.selectedEmployees.filter(
-        (employee) => employee.id !== action.payload.id
-      );
+      state.employees.find(
+        (employee) => employee.id === action.payload.id
+      )!.status = 'inactive';
     },
   },
   extraReducers: (builder) => {
     builder.addCase(
       fetchEmployees.fulfilled,
       (state, action: PayloadAction<TEmployee[]>) => {
-        state.employees = action.payload;
+        if ('status' in action.payload[0]) {
+          state.employees = action.payload;
+        } else {
+          const withStatus = action.payload.map((employee) => {
+            employee.status = 'inactive';
+            return employee;
+          });
+          state.employees = withStatus;
+        }
       }
     );
   },
@@ -52,7 +64,7 @@ export const { selectEmployee, deselectEmployee } = employeesSlice.actions;
 export const employeesSelector = (state: RootState) =>
   state.employees.employees;
 export const selectedEmployeesSelector = (state: RootState) =>
-  state.employees.selectedEmployees;
+  state.employees.employees.filter((employee) => employee.status === 'active');
 
 // reducer
 export default employeesSlice.reducer;

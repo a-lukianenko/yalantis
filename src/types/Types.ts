@@ -3,4 +3,5 @@ export type TEmployee = {
   firstName: string;
   lastName: string;
   dob: Date | string;
+  status?: 'active' | 'inactive';
 };

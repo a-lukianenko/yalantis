@@ -28,6 +28,12 @@ export const Employees = () => {
     dispatch(fetchEmployees());
   }, [dispatch]);
 
+  useEffect(() => {
+    window.addEventListener('beforeunload', () => {
+      localStorage.setItem('employees', JSON.stringify(employees));
+    });
+  }, [employees]);
+
   return (
     <div className={classes.container}>
       <AlphabeticView

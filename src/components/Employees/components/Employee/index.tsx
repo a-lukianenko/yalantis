@@ -25,7 +25,7 @@ const useStyles = createUseStyles((theme) => ({
 export const Employee = ({ employee }: TProps) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const [status, setStatus] = useState<TStatus>('inactive');
+  const [status, setStatus] = useState<TStatus>(employee.status as TStatus);
 
   const onStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
