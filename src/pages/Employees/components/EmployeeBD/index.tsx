@@ -1,3 +1,4 @@
+import { formatDate } from 'helpers/formatDate';
 import { TEmployee } from 'types/Types';
 
 type IProps = {
@@ -11,7 +12,7 @@ export const EmployeeBDList = ({ employees }: IProps) => {
         const { id, firstName, lastName, dob } = employee;
         return (
           <div key={id}>
-            {firstName} {lastName} {dob}
+            {firstName} {lastName} - {formatDate(dob)}
           </div>
         );
       })}

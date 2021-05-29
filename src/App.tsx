@@ -1,6 +1,6 @@
-import { Employees } from './components/Employees';
+import { Employees } from './pages/Employees';
 import { Switch, Redirect, Route } from 'react-router-dom';
-import { NotFound } from 'components/NotFound';
+import { NotFound } from 'pages/NotFound';
 import './App.css';
 
 function App() {
