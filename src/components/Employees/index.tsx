@@ -4,7 +4,7 @@ import {
 } from 'features/employees/employeesSlice';
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { sorter } from 'helpers/sorter';
+import { sorterLastName } from 'helpers/sorter';
 import englishAlphabet from 'helpers/enlgish';
 import { AlphabeticView } from './components/AlphaBeticView';
 import { BirthdayDisplay } from './components/BirthdayDisplay';
@@ -22,7 +22,7 @@ export const Employees = () => {
   const dispatch = useAppDispatch();
   const classes = useStyles();
 
-  const sortedEmployees = useMemo(() => sorter(employees), [employees]);
+  const sortedEmployees = useMemo(() => sorterLastName(employees), [employees]);
 
   useEffect(() => {
     dispatch(fetchEmployees());

@@ -18,7 +18,7 @@ const groupedAlpha = (employees: TEmployee[]) => {
   }, {} as TSortedEmployees);
 };
 
-export const sorter = compose(groupedAlpha, sortedByLastName);
+export const sorterLastName = compose(groupedAlpha, sortedByLastName);
 
 const sortedByMonth = (employees: TEmployee[]) =>
   cloneDeep(employees).sort((a, b) => {
@@ -27,7 +27,7 @@ const sortedByMonth = (employees: TEmployee[]) =>
     return monthA - monthB;
   });
 
-const groupedMonth = (employees: TEmployee[]) => {
+const groupedByMonth = (employees: TEmployee[]) => {
   return employees.reduce((acc, item) => {
     const month = new Date(item.dob).getMonth();
     if (!acc[month]) {
@@ -38,4 +38,4 @@ const groupedMonth = (employees: TEmployee[]) => {
   }, {} as TSortedEmployees);
 };
 
-export const sorterMonth = compose(groupedMonth, sortedByMonth);
+export const sorterMonth = compose(groupedByMonth, sortedByMonth);

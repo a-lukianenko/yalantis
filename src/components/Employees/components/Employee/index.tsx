@@ -6,6 +6,7 @@ import {
   deselectEmployee,
   selectEmployee,
 } from 'features/employees/employeesSlice';
+import { RadioInput } from './components/RadioInput';
 
 // Types
 type TProps = {
@@ -30,11 +31,10 @@ export const Employee = ({ employee }: TProps) => {
   const onStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    if (value === 'active') {
-      dispatch(selectEmployee(employee));
-    } else {
-      dispatch(deselectEmployee(employee));
-    }
+    value === 'active'
+      ? dispatch(selectEmployee(employee))
+      : dispatch(deselectEmployee(employee));
+
     setStatus(e.target.value as TStatus);
   };
 
@@ -45,26 +45,20 @@ export const Employee = ({ employee }: TProps) => {
         {firstName} {lastName}
       </span>
       <form>
-        <label>
-          Active
-          <input
-            type="radio"
-            name="status"
-            value="active"
-            checked={status === 'active'}
-            onChange={onStatusChange}
-          />
-        </label>
-        <label>
-          Not active
-          <input
-            type="radio"
-            name="status"
-            value="inactive"
-            checked={status === 'inactive'}
-            onChange={onStatusChange}
-          />
-        </label>
+        <RadioInput
+          labelTitle="Active"
+          name="status"
+          value="active"
+          isChecked={status === 'active'}
+          onChange={onStatusChange}
+        />
+        <RadioInput
+          labelTitle="Not active"
+          name="status"
+          value="inactive"
+          isChecked={status === 'inactive'}
+          onChange={onStatusChange}
+        />
       </form>
     </div>
   );

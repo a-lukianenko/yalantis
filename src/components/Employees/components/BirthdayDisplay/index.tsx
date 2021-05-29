@@ -7,6 +7,7 @@ const months = [...Array(12).keys()];
 
 export const BirthdayDisplay = () => {
   const selectedEmployees = useAppSelector(selectedEmployeesSelector);
+
   if (selectedEmployees.length < 1) {
     return (
       <div>
