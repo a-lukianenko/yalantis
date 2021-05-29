@@ -25,6 +25,12 @@ const useStyles = createUseStyles((theme) => ({
     fontWeight: 'bold',
     color: 'blue',
   },
+  card: {
+    padding: 10,
+    marginBottom: 8,
+    borderRadius: 6,
+    boxShadow: '0 1px 6px 0 rgb(32 33 36 / 28%)',
+  },
 }));
 
 export const Employee = ({ employee }: TProps) => {
@@ -47,7 +53,7 @@ export const Employee = ({ employee }: TProps) => {
   const className = cx({ employeeName: status === 'active' });
 
   return (
-    <div>
+    <div className={classes.card}>
       <span className={className}>
         {firstName} {lastName}
       </span>

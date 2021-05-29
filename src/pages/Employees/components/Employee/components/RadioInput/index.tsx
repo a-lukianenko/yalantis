@@ -14,7 +14,7 @@ export const RadioInput = ({
   onChange,
 }: IProps) => {
   return (
-    <label>
+    <label style={{ display: 'block' }}>
       {labelTitle}
       <input
         type="radio"
