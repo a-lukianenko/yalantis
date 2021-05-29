@@ -14,7 +14,7 @@ export const AlphabeticView = ({ alphabet, groupedData }: IProps) => {
         return (
           <div key={letter}>
             <h3>{letter.toUpperCase()}</h3>
-            {list ? <EmployeeList employees={groupedData[letter]} /> : '******'}
+            {list ? <EmployeeList employees={groupedData[letter]} /> : '-----'}
           </div>
         );
       })}

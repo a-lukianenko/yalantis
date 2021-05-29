@@ -1,10 +1,10 @@
 import {
   employeesSelector,
+  employeesSortedLastNameSelector,
   fetchEmployees,
 } from 'features/employees/employeesSlice';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { sorterLastName } from 'helpers/sorter';
 import englishAlphabet from 'helpers/enlgish';
 import { AlphabeticView } from './components/AlphaBeticView';
 import { BirthdayDisplay } from './components/BirthdayDisplay';
@@ -19,10 +19,11 @@ const useStyles = createUseStyles((theme) => ({
 
 export const Employees = () => {
   const employees = useAppSelector(employeesSelector);
+  const employeesSortedLastName = useAppSelector(
+    employeesSortedLastNameSelector
+  );
   const dispatch = useAppDispatch();
   const classes = useStyles();
-
-  const sortedEmployees = useMemo(() => sorterLastName(employees), [employees]);
 
   useEffect(() => {
     dispatch(fetchEmployees());
@@ -38,7 +39,7 @@ export const Employees = () => {
     <div className={classes.container}>
       <AlphabeticView
         alphabet={englishAlphabet}
-        groupedData={sortedEmployees}
+        groupedData={employeesSortedLastName}
       />
       <BirthdayDisplay />
     </div>

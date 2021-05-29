@@ -4,6 +4,7 @@ import { TEmployee } from 'types/Types';
 
 export type TSortedEmployees = Record<string, TEmployee[]>;
 
+//
 const sortedByLastName = (employees: TEmployee[]) =>
   cloneDeep(employees).sort((a, b) => a.lastName.localeCompare(b.lastName));
 
@@ -17,9 +18,9 @@ const groupedAlpha = (employees: TEmployee[]) => {
     return acc;
   }, {} as TSortedEmployees);
 };
-
 export const sorterLastName = compose(groupedAlpha, sortedByLastName);
 
+//
 const sortedByMonth = (employees: TEmployee[]) =>
   cloneDeep(employees).sort((a, b) => {
     const monthA = new Date(a.dob).getMonth();
@@ -37,5 +38,12 @@ const groupedByMonth = (employees: TEmployee[]) => {
     return acc;
   }, {} as TSortedEmployees);
 };
-
 export const sorterMonth = compose(groupedByMonth, sortedByMonth);
+
+//
+export const regroupByCurrentMonth = () => {
+  const months = [...Array(12).keys()];
+  const currentMonth = new Date().getMonth();
+  const idx = months.indexOf(currentMonth);
+  return [...months.slice(idx), ...months.slice(0, idx)];
+};

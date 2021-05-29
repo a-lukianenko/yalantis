@@ -1,7 +1,13 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 import { TEmployee } from 'types/Types';
 import { RootState } from 'app/store';
+import { sorterLastName, sorterMonth } from 'helpers/sorter';
 
 type TEmployeeSlice = {
   employees: TEmployee[];
@@ -65,6 +71,15 @@ export const employeesSelector = (state: RootState) =>
   state.employees.employees;
 export const selectedEmployeesSelector = (state: RootState) =>
   state.employees.employees.filter((employee) => employee.status === 'active');
+export const employeesSortedLastNameSelector = createSelector(
+  employeesSelector,
+  (employees) => sorterLastName(employees)
+);
+
+export const selectedEmployeesGroupedByMonthSelector = createSelector(
+  selectedEmployeesSelector,
+  (selected) => sorterMonth(selected)
+);
 
 // reducer
 export default employeesSlice.reducer;

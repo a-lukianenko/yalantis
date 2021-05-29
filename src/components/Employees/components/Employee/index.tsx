@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import { TEmployee } from 'types/Types';
 import { createUseStyles } from 'react-jss';
+import classNames from 'classnames/bind';
+import { TEmployee } from 'types/Types';
 import { useAppDispatch } from 'app/hooks';
+
+// actions
 import {
   deselectEmployee,
   selectEmployee,
 } from 'features/employees/employeesSlice';
+
+// components
 import { RadioInput } from './components/RadioInput';
 
 // Types
 type TProps = {
   employee: TEmployee;
 };
-
 type TStatus = 'active' | 'inactive';
 
 // styles
@@ -25,6 +29,7 @@ const useStyles = createUseStyles((theme) => ({
 
 export const Employee = ({ employee }: TProps) => {
   const classes = useStyles();
+  let cx = classNames.bind(classes);
   const dispatch = useAppDispatch();
   const [status, setStatus] = useState<TStatus>(employee.status as TStatus);
 
@@ -39,9 +44,11 @@ export const Employee = ({ employee }: TProps) => {
   };
 
   const { firstName, lastName } = employee;
+  const className = cx({ employeeName: status === 'active' });
+
   return (
     <div>
-      <span className={status === 'active' ? classes.employeeName : ''}>
+      <span className={className}>
         {firstName} {lastName}
       </span>
       <form>

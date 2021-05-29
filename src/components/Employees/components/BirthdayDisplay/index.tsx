@@ -1,30 +1,14 @@
 import { useAppSelector } from 'app/hooks';
-import { selectedEmployeesSelector } from 'features/employees/employeesSlice';
-import { sorterMonth } from 'helpers/sorter';
+import { selectedEmployeesGroupedByMonthSelector } from 'features/employees/employeesSlice';
+import { regroupByCurrentMonth } from 'helpers/sorter';
 import { EmployeeBDList } from '../EmployeeBD';
 
-const months = [...Array(12).keys()];
-
 export const BirthdayDisplay = () => {
-  const selectedEmployees = useAppSelector(selectedEmployeesSelector);
+  const groupedEmployees = useAppSelector(
+    selectedEmployeesGroupedByMonthSelector
+  );
 
-  if (selectedEmployees.length < 1) {
-    return (
-      <div>
-        <h3>Employees List is empty</h3>
-      </div>
-    );
-  }
-
-  const groupedByMonth = sorterMonth(selectedEmployees);
-  for (const key in groupedByMonth) {
-    groupedByMonth[key].sort((a, b) => a.lastName.localeCompare(b.lastName));
-  }
-  const currentMonth = new Date().getMonth();
-  const idx = months.indexOf(currentMonth);
-  const regroupedMonths = [...months.slice(idx), ...months.slice(0, idx)];
-
-  if (selectedEmployees.length < 1) {
+  if (Object.keys(groupedEmployees).length < 1) {
     return (
       <div>
         <h3>Employees List is empty</h3>
@@ -35,8 +19,8 @@ export const BirthdayDisplay = () => {
   return (
     <div>
       <h3>Employees birthdays</h3>
-      {regroupedMonths.map((month) => {
-        const list = groupedByMonth[month];
+      {regroupByCurrentMonth().map((month) => {
+        const list = groupedEmployees[month];
         return (
           <div key={month.toString()}>
             <h3>
