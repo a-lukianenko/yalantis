@@ -1,6 +1,6 @@
-import { cloneDeep } from "lodash";
-import { compose } from "lodash/fp";
-import { TEmployee } from "types/Types";
+import { cloneDeep } from 'lodash';
+import { compose } from 'lodash/fp';
+import { TEmployee } from 'types/Types';
 
 export type TSortedEmployees = Record<string, TEmployee[]>;
 
@@ -19,3 +19,23 @@ const groupedAlpha = (employees: TEmployee[]) => {
 };
 
 export const sorter = compose(groupedAlpha, sortedByLastName);
+
+const sortedByMonth = (employees: TEmployee[]) =>
+  cloneDeep(employees).sort((a, b) => {
+    const monthA = new Date(a.dob).getMonth();
+    const monthB = new Date(b.dob).getMonth();
+    return monthA - monthB;
+  });
+
+const groupedMonth = (employees: TEmployee[]) => {
+  return employees.reduce((acc, item) => {
+    const month = new Date(item.dob).getMonth();
+    if (!acc[month]) {
+      acc[month] = [];
+    }
+    acc[month].push(item);
+    return acc;
+  }, {} as TSortedEmployees);
+};
+
+export const sorterMonth = compose(groupedMonth, sortedByMonth);

@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
-import { TEmployee } from "types/Types";
-import { filter, set } from "lodash/fp";
-import { RootState } from "app/store";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { TEmployee } from 'types/Types';
+import { filter, set } from 'lodash/fp';
+import { RootState } from 'app/store';
 
 type TEmployeeSlice = {
   employees: TEmployee[];
@@ -15,7 +15,7 @@ const initialState: TEmployeeSlice = {
 };
 
 export const fetchEmployees = createAsyncThunk(
-  "employees/fetchByIdStatus",
+  'employees/fetchByIdStatus',
   async () => {
     const response = await axios.get(process.env.REACT_APP_API as string);
     return response.data as TEmployee[];
@@ -23,24 +23,23 @@ export const fetchEmployees = createAsyncThunk(
 );
 
 const employeesSlice = createSlice({
-  name: "employees",
+  name: 'employees',
   initialState,
   reducers: {
     selectEmployee: (state, action: PayloadAction<TEmployee>) => {
       state.selectedEmployees.push(action.payload);
     },
     deselectEmployee: (state, action: PayloadAction<TEmployee>) => {
-      const filtered = filter(
-        (employee: TEmployee) => employee.id !== action.payload.id
-      )(state);
-      return set("selectedEmployees")(filtered)(state);
+      state.selectedEmployees = state.selectedEmployees.filter(
+        (employee) => employee.id !== action.payload.id
+      );
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(
       fetchEmployees.fulfilled,
       (state, action: PayloadAction<TEmployee[]>) => {
-        return set("employees")(action.payload)(state);
+        state.employees = action.payload;
       }
     );
   },

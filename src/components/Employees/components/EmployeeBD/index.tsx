@@ -1,14 +1,20 @@
-import { TEmployee } from "types/Types";
+import { TEmployee } from 'types/Types';
 
 type IProps = {
-  employee: TEmployee;
+  employees: TEmployee[];
 };
 
-export const EmployeeBD = ({ employee }: IProps) => {
-  const { firstName, lastName, dob } = employee;
+export const EmployeeBDList = ({ employees }: IProps) => {
   return (
     <div>
-      {firstName} {lastName} {dob}
+      {employees.map((employee) => {
+        const { id, firstName, lastName, dob } = employee;
+        return (
+          <div key={id}>
+            {firstName} {lastName} {dob}
+          </div>
+        );
+      })}
     </div>
   );
 };

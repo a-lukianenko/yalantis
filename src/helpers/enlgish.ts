@@ -1,1 +1,1 @@
-export default "abcdefghijklmnopqrstuvwxyz".split("");
+export default 'abcdefghijklmnopqrstuvwxyz'.split('');
