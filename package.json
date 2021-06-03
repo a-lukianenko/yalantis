@@ -2,7 +2,7 @@
   "name": "yalantis",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://a-lukianenko.github.io/yalantis/",
+  "homepage": "https://a-lukianenko.github.io/yalantis",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.1",
     "@testing-library/jest-dom": "^5.12.0",
